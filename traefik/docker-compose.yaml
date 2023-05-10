@@ -1,0 +1,47 @@
+version: "3.3"
+
+services:
+
+  traefik:
+    image: traefik:v2.6
+    restart: always
+    container_name: traefik
+    env_file:
+      - .env
+    ports:
+      - "80:80" # <== http
+      #- "8080:8080" # <== for traefic dashboard
+      - "443:443" # <== https
+    command:
+      #- --api.insecure=true
+      #- --api.dashboard=true
+      #- --api.debug=true
+      - --log.level=DEBUG
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+      - --providers.docker.network=sentry-self-hosted_default
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecured.address=:443
+      - --entrypoints.websecured.http.tls=true
+
+      # Secure https
+      - --certificatesresolvers.myresolver.acme.dnschallenge=true
+      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=route53
+      - --certificatesresolvers.myresolver.acme.dnschallenge.delaybeforecheck=0
+      - --certificatesresolvers.myresolver.acme.storage=acme.json
+      - --certificatesresolvers.myresolver.acme.email=sre@metricfire.com
+    environment:
+      AWS_ACCESS_KEY_ID: "${AWS_ACCESS_KEY_ID}"
+      AWS_SECRET_ACCESS_KEY: "${AWS_SECRET_ACCESS_KEY}"
+      AWS_HOSTED_ZONE_ID: "${AWS_HOSTED_ZONE_ID}"
+    volumes:
+      - ./traefik/acme.json:/acme.json
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - sentry-self-hosted_default
+    labels:
+      - "traefik.http.routers.traefik.tls.certresolver=myresolver"
+# Docker Networks
+networks:
+  sentry-self-hosted_default:
+    external: true
