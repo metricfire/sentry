@@ -43,11 +43,11 @@ mail.host: 'smtp'
 ###################
 # System Settings #
 ###################
-
+system.url-prefix: 'https://sentry.example.com'
 # If this file ever becomes compromised, it's important to generate a new key.
 # Changing this value will result in all current sessions being invalidated.
 # A new key can be generated with `$ sentry config generate-secret-key`
-system.secret-key: '!!changeme!!'
+system.secret-key: ''
 
 # The ``redis.clusters`` setting is used, unsurprisingly, to configure Redis
 # clusters. These clusters can be then referred to by name when configuring
@@ -78,7 +78,7 @@ releasefile.cache-path: '/data/releasefile-cache'
 #   secret_key: 'XXXXXXX'
 #   bucket_name: 's3-bucket-name'
 
-system.internal-url-prefix: 'http://web:9000'
+system.internal-url-prefix: 'https://sentry.example.com'
 symbolicator.enabled: true
 symbolicator.options:
   url: "http://symbolicator:3021"
