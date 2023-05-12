@@ -363,7 +363,7 @@ services:
         <<: *depends_on-healthy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.relay.rule=Host(`sentry.metricfire.hostedgraphite.com`)"
+      - "traefik.http.routers.relay.rule=Host(`sentry.metricfire.hostedgraphite.com`) && PathPrefix(`/api/store/`, `/api/{id:[1-9]\\d*/}`, `/api/{id:[1-9]\\d*/}(.*/)?`)"
       - "traefik.http.routers.relay.entrypoints=websecured"
       - "traefik.http.routers.relay.tls.certresolver=myresolver"
 volumes:
@@ -386,12 +386,10 @@ volumes:
   # These store ephemeral data that needn't persist across restarts.
   sentry-secrets:
   sentry-smtp:
-  sentry-nginx-cache:
   sentry-zookeeper-log:
   sentry-kafka-log:
   sentry-smtp-log:
   sentry-clickhouse-log:
-
 networks:
   sentry-self-hosted_default:
     external: true
