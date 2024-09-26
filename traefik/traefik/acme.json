@@ -1,0 +1,28 @@
+{
+    "myresolver": {
+      "Account": {
+        "Email": "sre@metricfire.com",
+        "Registration": {
+          "body": {
+            "status": "valid",
+            "contact": [
+              "mailto:sre@metricfire.com"
+            ]
+          },
+          "uri": "https://acme-v02.api.letsencrypt.org/acme/acct/1103278037"
+        },
+        "PrivateKey": "",
+        "KeyType": "4096"
+      },
+      "Certificates": [
+        {
+          "domain": {
+            "main": "sentry.metricfire.hostedgraphite.com"
+          },
+          "certificate": "",
+          "key": "",
+          "Store": "default"
+        }
+      ]
+    }
+  }
